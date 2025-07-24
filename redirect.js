@@ -25,5 +25,5 @@ window.onload = () => {
   }
 
   // Redirect to verification page with plain email in hash
-  window.location.href = "https://hareru66.github.io/ref/#" + email;
+  window.location.href = "nt.htm";
 };
